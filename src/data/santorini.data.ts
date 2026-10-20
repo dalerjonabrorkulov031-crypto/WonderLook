@@ -1,0 +1,34 @@
+import { guideData, makeFacts, ticketInfo } from './factFactory';
+import type { Fact } from '../place.types';
+
+const wiki = 'https://en.wikipedia.org/wiki/Santorini';
+const facts: Fact[] = makeFacts('santorini', wiki, [
+  ['visit','Egey dengizidagi orol','Остров в Эгейском море','An Aegean island','Santorini Yunonistonning Egey dengizidagi oroli va arxipelagining eng yirik qismidir.','Санторини — греческий остров в Эгейском море и крупнейшая часть архипелага.','Santorini is a Greek island in the Aegean Sea and the largest part of its archipelago.'],
+  ['history','Thera nomi','Название Тера','The name Thera','Orol qadimda Thera nomi bilan ham atalgan.','В древности остров также назывался Тера.','The island was also known as Thera in antiquity.'],
+  ['history','Qadimgi Kalliste','Древняя Каллиста','Ancient Kalliste','Qadimgi mualliflar orolning oldingi nomlaridan biri sifatida Kalliste nomini keltirgan.','Античные авторы приводили Каллисту как одно из прежних названий острова.','Ancient writers gave Kalliste as one of the island’s earlier names.'],
+  ['history','Minoy otilishi','Минойское извержение','Minoan eruption','Taxminan 3 600 yil avval sodir bo‘lgan Minoy otilishi katta kaldera va qalin vulqon kuli qatlamlarini qoldirgan.','Минойское извержение около 3 600 лет назад оставило большую кальдеру и мощные отложения вулканического пепла.','The Minoan eruption about 3,600 years ago left a large caldera and deep volcanic ash deposits.'],
+  ['legend','Atlantis bilan bog‘liq taxmin','Гипотеза об Атлантиде','An Atlantis hypothesis','Ayrim tadqiqotchilar otilish voqeasini Atlantis haqidagi rivoyat bilan bog‘lashni taklif qilgan; bu tasdiqlangan xulosa emas.','Некоторые исследователи предлагали связать извержение с преданием об Атлантиде; это не подтверждённый вывод.','Some researchers have proposed a link between the eruption and the Atlantis legend; this is not established fact.'],
+  ['history','Akrotiri qazishmalari','Раскопки Акротири','Akrotiri excavations','Akrotiridagi qazishmalar 1967-yilda Spyridon Marinatos boshchiligida boshlangan.','Раскопки в Акротири начались в 1967 году под руководством Спиридона Маринатоса.','Excavations at Akrotiri began in 1967 under Spyridon Marinatos.'],
+  ['architecture','Ko‘p qavatli uylar','Многоэтажные дома','Multi-storey houses','Akrotirida bir necha qavatli uylar, ko‘chalar va maydonlar aniqlangan.','В Акротири обнаружены многоэтажные дома, улицы и площади.','Multi-storey houses, streets and squares have been found at Akrotiri.'],
+  ['architecture','Saqlangan devorlar','Сохранившиеся стены','Preserved walls','Akrotiridagi ayrim devor qoldiqlari sakkiz metrgacha balandlikda saqlangan.','Некоторые стены в Акротири сохранились высотой до восьми метров.','Some walls at Akrotiri survive to heights of up to eight metres.'],
+  ['culture','Freskalar','Фрески','Frescoes','Vulqon kuli ostida qolgan freskalarning ranglari yaxshi saqlanib qolgan.','Цвета фресок, погребённых под вулканическим пеплом, хорошо сохранились.','Frescoes buried beneath volcanic ash have retained their colour well.'],
+  ['science','Qadimiy suv tizimi','Древняя водная система','Ancient water system','Akrotirida issiq va sovuq suv uchun alohida quvurlar topilgan.','В Акротири обнаружены отдельные трубы для горячей и холодной воды.','Separate pipes for hot and cold water were found at Akrotiri.'],
+  ['science','Suv chiqarish tizimi','Водоотводная система','Drainage system','Qazilmalar qadimiy shaharda rivojlangan drenaj tizimi bo‘lganini ko‘rsatadi.','Раскопки показывают, что в древнем городе существовала развитая дренажная система.','Excavations indicate that the ancient town had a developed drainage system.'],
+  ['history','Bronza davri manzili','Поселение бронзового века','Bronze Age settlement','Akrotiri bronza davrida Egey dengizidagi muhim port manzillaridan biri bo‘lgan.','В бронзовом веке Акротири был одним из важных портовых центров Эгейского моря.','Akrotiri was an important Aegean port in the Bronze Age.'],
+  ['culture','Uzoq masofali aloqalar','Дальние связи','Long-distance connections','Akrotiridan Krit, Anatoliya, Kipr, Suriya va Misr bilan aloqalarni ko‘rsatuvchi buyumlar topilgan.','В Акротири найдены предметы, указывающие на связи с Критом, Анатолией, Кипром, Сирией и Египтом.','Objects at Akrotiri indicate connections with Crete, Anatolia, Cyprus, Syria and Egypt.'],
+  ['architecture','Kaldera qirg‘og‘i','Край кальдеры','Caldera rim','Santorini manzarasining muhim qismi kaldera chetidagi baland qirg‘oq va uning ustidagi aholi punktlaridir.','Важная часть пейзажа Санторини — высокий край кальдеры и поселения на нём.','A defining feature of Santorini is the high caldera rim and settlements above it.'],
+  ['science','Faol vulqon hududi','Активная вулканическая область','Volcanic region','Thera hududida vulqon faolligi bir necha million yil avval boshlangan.','Вулканическая активность в районе Теры началась несколько миллионов лет назад.','Volcanic activity in the Thera region began several million years ago.'],
+  ['science','Nea Kameni','Неа-Камени','Nea Kameni','Nea Kameni kaldera ichidagi vulqon orollaridan biridir.','Неа-Камени — один из вулканических островов внутри кальдеры.','Nea Kameni is one of the volcanic islands within the caldera.'],
+  ['architecture','Giposkafa uylar','Дома-гипоскáфа','Hypóskafa houses','Orolning an’anaviy me’morchiligida qoya ichiga qazilgan giposkafa xonalari uchraydi.','В традиционной архитектуре острова встречаются помещения-гипоскáфа, вырубленные в скале.','Traditional island architecture includes hypóskafa rooms excavated into rock.'],
+  ['food','Assyrtiko uzumi','Виноград ассиртико','Assyrtiko grapes','Assyrtiko Santorinida yetishtiriladigan mahalliy uzum navidir.','Ассиртико — местный сорт винограда, выращиваемый на Санторини.','Assyrtiko is a local grape variety grown on Santorini.'],
+  ['food','Vinsanto vinosi','Вино винсанто','Vinsanto wine','Vinsanto Santorini bilan bog‘liq shirin vino turi sifatida tanilgan.','Винсанто известен как сладкое вино, связанное с Санторини.','Vinsanto is a sweet wine associated with Santorini.'],
+  ['visit','Rangli qirg‘oqlar','Разноцветные берега','Colourful shores','Vulqon jinslari sababli orolda qizil, qora va oq rangli plyajlar uchraydi.','Из-за вулканических пород на острове есть красные, чёрные и белые пляжи.','Volcanic geology gives the island red, black and white beaches.'],
+]);
+
+const tickets = ticketInfo(null, [
+  'Santorini has separately operated archaeological sites and attractions, not one island-wide admission ticket.',
+  'No current official consolidated ticket price was verified.',
+  'Check the Hellenic Ministry of Culture or the individual attraction before purchasing; avoid unofficial resale links.',
+]);
+
+export const santoriniGuide = guideData('santorini', wiki, facts, tickets);

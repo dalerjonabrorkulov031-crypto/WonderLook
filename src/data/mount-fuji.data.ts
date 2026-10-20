@@ -1,0 +1,33 @@
+import { guideData, makeFacts, ticketInfo } from './factFactory';
+import type { Fact } from '../place.types';
+
+const wiki = 'https://en.wikipedia.org/wiki/Mount_Fuji';
+const facts: Fact[] = makeFacts('mount-fuji', wiki, [
+  ['science','Faol stratovulqon','Активный стратовулкан','An active stratovolcano','Fuji — Honshu orolidagi faol stratovulqon va Yaponiyaning eng baland tog‘i.','Фудзи — действующий стратовулкан на Хонсю и высочайшая гора Японии.','Fuji is an active stratovolcano on Honshu and Japan’s highest mountain.'],
+  ['science','Cho‘qqi balandligi','Высота вершины','Summit elevation','Cho‘qqi balandligi 3 776,24 metr deb ko‘rsatilgan.','Высота вершины указана как 3 776,24 метра.','The summit elevation is given as 3,776.24 metres.'],
+  ['history','Hōei otilishi','Извержение Хоэй','The Hōei eruption','Fuji oxirgi marta 1707–1708-yillarda otilgan.','Последнее извержение Фудзи произошло в 1707–1708 годах.','Fuji last erupted in 1707–1708.'],
+  ['visit','Tokiodan masofa','Расстояние от Токио','Distance from Tokyo','Tog‘ Tokiodan qariyb 100 km janubi-g‘arbda joylashgan.','Гора расположена примерно в 100 км к юго-западу от Токио.','The mountain is about 100 km southwest of Tokyo.'],
+  ['science','Simmetrik konus','Симметричный конус','Symmetrical cone','Fuji o‘zining juda simmetrik konus shakli bilan ajralib turadi.','Фудзи отличается очень симметричной конической формой.','Fuji is distinguished by its highly symmetrical cone.'],
+  ['science','Mavsumiy qor','Сезонный снег','Seasonal snow','Cho‘qqi yilning taxminan besh oyi davomida qor bilan qoplanadi.','Вершина покрыта снегом примерно пять месяцев в году.','The summit is snow-covered for about five months of the year.'],
+  ['culture','Uch muqaddas tog‘','Три священные горы','Three sacred mountains','Fuji Tate va Haku bilan birga Yaponiyaning Uch muqaddas tog‘idan biri hisoblanadi.','Фудзи вместе с Татэ и Хаку входит в число трёх священных гор Японии.','Fuji is one of Japan’s Three Holy Mountains, with Tate and Haku.'],
+  ['culture','UNESCO merosi','Наследие ЮНЕСКО','UNESCO heritage','Fuji 2013-yil 22-iyunda madaniy obyekt sifatida UNESCO ro‘yxatiga kiritilgan.','Фудзи включили в список ЮНЕСКО как культурный объект 22 июня 2013 года.','Fuji was inscribed as a cultural site by UNESCO on 22 June 2013.'],
+  ['culture','Madaniy obyektlar','Культурные объекты','Cultural sites','UNESCO Fuji hududida 25 ta madaniy ahamiyatga ega joyni tan oladi.','ЮНЕСКО признаёт в районе Фудзи 25 объектов культурного значения.','UNESCO recognises 25 sites of cultural interest in the Fuji area.'],
+  ['history','Nomining kelib chiqishi','Происхождение названия','Name origins','Fuji nomining kelib chiqishi haqida turli izohlar bor, ammo etimologiyasi bahsli.','Существуют разные объяснения названия Фудзи, но его этимология остаётся спорной.','Several explanations exist for Fuji’s name, but its etymology remains debated.'],
+  ['science','Kanji belgilarining ma’nosi','Значения кандзи','Kanji meanings','Hozirgi 富 va 士 belgilariga boylik va martabali kishi ma’nolari beriladi; bu tog‘ nomining kelib chiqishini isbotlamaydi.','Иероглифам 富 и 士 приписывают значения богатства и знатного человека; это не доказывает происхождение названия.','The characters 富 and 士 mean wealth and a person of status, but do not establish the name’s origin.'],
+  ['culture','Bambuk kesuvchi haqidagi qissa','Сказание о резчике бамбука','Tale of the Bamboo Cutter','IX asrga oid “Bambuk kesuvchi qissasi” Fuji nomiga afsonaviy izoh beradi.','В «Повести о бамбуковом резчике» IX века приводится легендарное объяснение названия Фудзи.','The ninth-century Tale of the Bamboo Cutter offers a legendary explanation of Fuji’s name.'],
+  ['culture','San’atda Fuji','Фудзи в искусстве','Fuji in art','Fuji yapon san’ati va fotosuratlarida tez-tez tasvirlanadigan madaniy timsoldir.','Фудзи — культурный символ, часто изображаемый в японском искусстве и фотографии.','Fuji is a cultural icon frequently depicted in Japanese art and photography.'],
+  ['visit','Ziyorat va sayohat','Паломничество и путешествия','Pilgrimage and visits','Tog‘ asrlar davomida ziyorat qilinadigan joy bo‘lib, bugun sayr qiluvchilar va alpinistlarni ham jalb etadi.','На гору веками совершали паломничества; сегодня она привлекает туристов и альпинистов.','The mountain has been a pilgrimage destination for centuries and also draws sightseers and climbers.'],
+  ['culture','Sengen Taisha','Святилище Сэнгэн Тайся','Sengen Taisha','Fujisan Hongū Sengen Taisha Fuji bilan bog‘liq muhim sinto ziyoratgohidir.','Фудзисан Хонгу Сэнгэн Тайся — важное синтоистское святилище, связанное с Фудзи.','Fujisan Hongū Sengen Taisha is an important Shinto shrine associated with Fuji.'],
+  ['visit','Manzarali hudud maqomi','Статус живописного места','Scenic designation','Fuji Yaponiyaning Maxsus manzarali go‘zal joylaridan biri deb belgilangan.','Фудзи имеет статус особого живописного места Японии.','Fuji is designated a Special Place of Scenic Beauty in Japan.'],
+  ['history','Tarixiy joy','Историческое место','Historic site','Tog‘ Yaponiyaning tarixiy joylari ro‘yxatida ham qayd etilgan.','Гора также внесена в список исторических мест Японии.','The mountain is also listed among Japan’s Historic Sites.'],
+  ['science','Orol vulqonlari orasida','Среди островных вулканов','Among island volcanoes','Fuji Osiyo orollaridagi baland vulqonlar qatorida ikkinchi o‘rinda deb qayd etilgan.','Фудзи указана как второй по высоте вулкан на островах Азии.','Fuji is listed as the second-highest volcano on an Asian island.'],
+  ['visit','Ochiq kunlarda ko‘rinishi','Видимость в ясную погоду','Visible on clear days','Ochiq havoda Fuji Tokiodan ko‘rinishi mumkin.','В ясную погоду Фудзи можно увидеть из Токио.','Fuji can be seen from Tokyo on clear days.'],
+  ['science','Tabiiy va madaniy manzara','Природный и культурный ландшафт','Natural and cultural landscape','UNESCO Fuji hududini tog‘ va unga bog‘liq ziyoratgohlar hamda madaniy joylar bilan birga e’tirof etadi.','ЮНЕСКО признаёт Фудзи вместе со связанными с горой святилищами и культурными местами.','UNESCO recognises Fuji together with associated shrines and cultural sites.'],
+]);
+
+const tickets = ticketInfo('https://www.fujisan-climb.jp/en/', [
+  'The official climbing site was checked, but its current-season fee details could not be confirmed.',
+  'Do not rely on the old 2024 fee figure as a current price; verify the applicable route and season rules with the official site.',
+], { whereToBuy: ['Official Mount Fuji climbing information: https://www.fujisan-climb.jp/en/'] });
+
+export const mountFujiGuide = guideData('mount-fuji', wiki, facts, tickets);

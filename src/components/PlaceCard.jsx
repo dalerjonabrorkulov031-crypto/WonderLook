@@ -1,15 +1,9 @@
 import { forwardRef } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Bookmark, BookOpen, Crown, MapPin, Star } from 'lucide-react'
+import { Bookmark, Crown, MapPin, Star } from 'lucide-react'
 import { MONTHS_SHORT } from '../i18n'
 
-const guideLabel = {
-  uz: 'To‘liq qo‘llanma',
-  ru: 'Полный путеводитель',
-  en: 'Full travel guide',
-}
-
-const PlaceCard = forwardRef(function PlaceCard({ place, index, lang, t, saved, onToggle, onOpen, onOpenGuide }, ref) {
+const PlaceCard = forwardRef(function PlaceCard({ place, index, lang, t, saved, onToggle, onOpen }, ref) {
   return (
     <motion.article
       ref={ref}
@@ -48,11 +42,6 @@ const PlaceCard = forwardRef(function PlaceCard({ place, index, lang, t, saved, 
         </span>
         <span className="card-description">{place.description[lang]}</span>
         <span className="card-footer"><span>{t.best}</span><span>{place.bestMonths.map((month) => MONTHS_SHORT[lang][month - 1]).join(' — ')}</span></span>
-      </button>
-      <button type="button" className="place-card-guide" onClick={() => onOpenGuide(place)}>
-        <BookOpen size={17} aria-hidden="true" />
-        <span>{guideLabel[lang]}</span>
-        <ArrowUpRight size={17} aria-hidden="true" />
       </button>
       <button
         type="button"

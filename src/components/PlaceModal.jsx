@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
-  ArrowUpRight, Bookmark, CalendarDays, ChevronLeft, ChevronRight,
+  ArrowUpRight, Bookmark, BookOpen, CalendarDays, ChevronLeft, ChevronRight,
   ExternalLink, LockKeyhole, MapPin, Play, Star, Volume2, VolumeX, X,
 } from 'lucide-react'
 import { LOCALES, MONTHS } from '../i18n'
@@ -62,6 +62,11 @@ export default function PlaceModal({
       : place?.id === 'swiss-alps'
         ? 'alps'
         : place?.id
+  const hasPremiumGuide = Boolean(place?.travelTips)
+  const dailyCostEstimate = place?.dailyCostEstimate
+  const formattedDailyCost = typeof dailyCostEstimate?.amount === 'number'
+    ? new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(dailyCostEstimate.amount)
+    : null
 
   return (
     <AnimatePresence>
@@ -135,12 +140,6 @@ export default function PlaceModal({
             <div className="modal-content">
               <div className="modal-story">
                 <p className="modal-description">{place.description[lang]}</p>
-                {guideId && (
-                  <a className="guide-open-link" href={`/place/${guideId}`} onClick={(event) => { event.preventDefault(); onOpenGuide(place) }}>
-                    {lang === 'uz' ? 'To‘liq sayohat qo‘llanmasi' : lang === 'ru' ? 'Полный путеводитель' : 'Open the travel guide'}
-                    <ArrowUpRight size={15} />
-                  </a>
-                )}
                 <h3>{t.highlights}</h3>
                 <ul className="highlight-list">
                   {place.highlights[lang].map((highlight) => <li key={highlight}>{highlight}</li>)}
@@ -149,8 +148,17 @@ export default function PlaceModal({
                   {speaking ? <VolumeX size={16} /> : <Volume2 size={16} />}
                   {speaking ? t.stop : t.listen}
                 </button>
+                {guideId && (
+                  <a className="guide-open-link" href={`/place/${guideId}`} onClick={(event) => { event.preventDefault(); onOpenGuide(place) }}>
+                    <BookOpen size={21} aria-hidden="true" />
+                    <span className="guide-open-copy">
+                      <strong>{lang === 'uz' ? 'To‘liq sayohat qo‘llanmasi' : lang === 'ru' ? 'Полный путеводитель' : 'Full travel guide'}</strong>
+                      <small>{lang === 'uz' ? 'Faktlar, chipta va safar bo‘yicha maslahatlar' : lang === 'ru' ? 'Факты, билеты и советы для поездки' : 'Facts, tickets and practical travel tips'}</small>
+                    </span>
+                    <ArrowUpRight size={19} aria-hidden="true" />
+                  </a>
+                )}
               </div>
-              {place.isPro && (
                 <section className="pro-content-section">
                   <div className="pro-content-heading">
                     <span className="pro-content-badge"><span>✦</span> {t.proOnly}</span>
@@ -160,37 +168,52 @@ export default function PlaceModal({
                     <>
                       <div className="premium-cost-panel">
                         <div className="premium-cost-heading">
-                          <span>{t.exactCosts}</span>
-                          <strong>{t.estimatedDaily} <b>${Object.values(place.exactCosts).reduce((sum, cost) => sum + cost, 0)}</b></strong>
+                          <span>{t.costReference}</span>
+                          <strong>{formattedDailyCost ? <b>{formattedDailyCost}</b> : t.costUnavailable}</strong>
                         </div>
-                        <div className="premium-cost-grid">
-                          {['hotel', 'food', 'transport', 'tickets', 'hiddenFees'].map((key) => (
-                            <div className="premium-cost-item" key={key}>
-                              <span>{t[key]}</span><strong>${place.exactCosts[key]}</strong>
+                        {dailyCostEstimate?.source && (
+                          <a className="estimate-source" href={dailyCostEstimate.source} target="_blank" rel="noreferrer">
+                            {t.costSource}
+                          </a>
+                        )}
+                        {dailyCostEstimate?.verifiedAt && (
+                          <p className="estimate-source-date">{t.checkedOn}: {dailyCostEstimate.verifiedAt}</p>
+                        )}
+                        {dailyCostEstimate?.basis?.[lang] && (
+                          <p className="estimate-basis">{dailyCostEstimate.basis[lang]}</p>
+                        )}
+                        <p className="estimate-note">{t.estimateNote}</p>
+                      </div>
+                      {hasPremiumGuide ? (
+                        <div className="premium-guides-grid">
+                          {['visa', 'safety'].map((key) => (
+                            <div className="premium-guide" key={key}>
+                              <h4>{t[key]}</h4><p>{place.travelTips[key][lang]}</p>
                             </div>
                           ))}
-                        </div>
-                      </div>
-                      <div className="premium-guides-grid">
-                        {['visa', 'safety'].map((key) => (
-                          <div className="premium-guide" key={key}>
-                            <h4>{t[key]}</h4><p>{place.travelTips[key][lang]}</p>
+                          <div className="premium-guide">
+                            <h4>{t.localFood}</h4>
+                            <div className="premium-pills">{place.travelTips.food[lang].map((item) => <span key={item}>{item}</span>)}</div>
                           </div>
-                        ))}
-                        <div className="premium-guide">
-                          <h4>{t.localFood}</h4>
-                          <div className="premium-pills">{place.travelTips.food[lang].map((item) => <span key={item}>{item}</span>)}</div>
+                          <div className="premium-guide">
+                            <h4>{t.hiddenGems}</h4>
+                            <div className="premium-pills">{place.travelTips.hiddenGems[lang].map((item) => <span key={item}>{item}</span>)}</div>
+                          </div>
                         </div>
-                        <div className="premium-guide">
-                          <h4>{t.hiddenGems}</h4>
-                          <div className="premium-pills">{place.travelTips.hiddenGems[lang].map((item) => <span key={item}>{item}</span>)}</div>
+                      ) : (
+                        <div className="pro-guide-pending">
+                          {lang === 'uz'
+                            ? 'Bu joy uchun Pro maslahatlar tayyorlanmoqda. Hozircha ochiq faktlar va safar ma’lumotlaridan foydalaning.'
+                            : lang === 'ru'
+                              ? 'Советы Pro для этого места готовятся. Пока воспользуйтесь открытыми фактами и информацией о поездке.'
+                              : 'The Pro guide for this destination is being prepared. In the meantime, explore the public facts and travel information.'}
                         </div>
-                      </div>
+                      )}
                     </>
                   ) : (
                     <div className="locked-content">
                       <div className="locked-preview" aria-hidden="true">
-                        <span>{t.hotel} · · · $••</span><span>{t.safety} · · ·</span><span>{t.hiddenGems} · · ·</span>
+                        <span>{t.costReference} · · ·</span><span>{t.safety} · · ·</span><span>{t.hiddenGems} · · ·</span>
                       </div>
                       <div className="locked-overlay">
                         <LockKeyhole size={21} />
@@ -204,7 +227,6 @@ export default function PlaceModal({
                     <Play size={15} fill="currentColor" /> {t.watchTour}<span>4K</span><ArrowUpRight size={15} />
                   </button>
                 </section>
-              )}
               <aside className="modal-facts">
                 <div className="fact-card">
                   <span className="fact-icon"><CalendarDays size={17} /></span>
@@ -214,7 +236,13 @@ export default function PlaceModal({
                 <div className="fact-card">
                   <span className="fact-icon"><MapPin size={17} /></span>
                   <span className="fact-label">{t.price}</span>
-                  <strong className="fact-value">{place.price[lang]}</strong>
+                  <a
+                    className="fact-value"
+                    href={`/place/${guideId}`}
+                    onClick={(event) => { event.preventDefault(); onOpenGuide(place) }}
+                  >
+                    {t.priceCheck}
+                  </a>
                 </div>
                 <a href={mapUrl} target="_blank" rel="noreferrer" className="map-link">
                   <span>{place.latitude.toFixed(4)}°, {place.longitude.toFixed(4)}°</span>

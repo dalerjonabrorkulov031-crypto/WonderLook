@@ -1,0 +1,34 @@
+import { guideData, makeFacts, ticketInfo } from './factFactory';
+import type { Fact } from '../place.types';
+
+const wiki = 'https://uz.wikipedia.org/wiki/Maldiv_orollari';
+const facts: Fact[] = makeFacts('maldives', wiki, [
+  ['visit','Hind okeanidagi davlat','Государство в Индийском океане','An Indian Ocean country','Maldiv Respublikasi Janubiy Osiyoda, Hind okeanining shimoli-g‘arbiy qismidagi orollarda joylashgan.','Мальдивская Республика расположена в Южной Азии, на островах в северо-западной части Индийского океана.','The Republic of Maldives is in South Asia, on islands in the northwestern Indian Ocean.'],
+  ['science','Maydoni va 2012-yilgi aholi','Площадь и население в 2012 году','Area and 2012 population','Maqolada maydon 298 km², 2012-yilgi aholi esa 324 ming kishi deb qayd etilgan.','В статье указаны площадь 298 км² и население 324 тысячи человек в 2012 году.','The article gives an area of 298 km² and a population of 324,000 in 2012.'],
+  ['visit','Poytaxt Male','Столица Мале','Capital Malé','Maldivlarning poytaxti — Male shahri.','Столица Мальдив — город Мале.','The capital of the Maldives is Malé.'],
+  ['visit','Yigirmata ma’muriy orol guruhi','Двадцать административных групп островов','Twenty administrative island groups','Maqolada mamlakat ma’muriy jihatdan 20 ta orollar guruhiga bo‘linishi aytiladi.','В статье говорится, что страна административно разделена на 20 групп островов.','The article says the country is administratively divided into 20 island groups.'],
+  ['science','Ikki mingdan ortiq orol','Более двух тысяч островов','More than two thousand islands','Maqolaga ko‘ra arxipelag 2 000 dan ortiq kichik oroldan iborat.','Согласно статье, архипелаг состоит более чем из 2 000 небольших островов.','According to the article, the archipelago consists of more than 2,000 small islands.'],
+  ['visit','Aholi yashaydigan orollar','Обитаемые острова','Inhabited islands','Manbada orollarning 200 tasida aholi yashashi qayd etilgan.','Источник указывает, что 200 островов населены.','The source reports that 200 islands are inhabited.'],
+  ['science','Marjon riflari','Коралловые рифы','Coral reefs','Orollarning aksariyati marjon riflari bilan o‘ralgan.','Большинство островов окружены коралловыми рифами.','Most of the islands are surrounded by coral reefs.'],
+  ['science','Mussonli ekvatorial iqlim','Экваториальный муссонный климат','Equatorial monsoon climate','Manba iqlimni ekvatorial-mussonli deb ta’riflaydi.','Источник характеризует климат как экваториальный муссонный.','The source describes the climate as equatorial and monsoonal.'],
+  ['science','Harorat oralig‘i','Диапазон температур','Temperature range','Maqolada havo harorati 24–30 °C deb berilgan.','В статье температура воздуха указана в пределах 24–30 °C.','The article gives an air temperature range of 24–30 °C.'],
+  ['science','Chuchuk suv tanqisligi','Нехватка пресной воды','Freshwater shortage','Yog‘in yiliga 2 500 mm gacha bo‘lishi mumkin, ammo maqola chuchuk suv yetishmasligini ham qayd etadi.','Осадки могут достигать 2 500 мм в год, но статья также отмечает нехватку пресной воды.','Rainfall can reach 2,500 mm a year, yet the article also notes freshwater scarcity.'],
+  ['food','Orol o‘simliklari','Растения островов','Island crops','Manbada kokos palmasi, banan, sitrus va non daraxti tilga olingan.','Источник упоминает кокосовые пальмы, бананы, цитрусовые и хлебное дерево.','The source mentions coconut palms, bananas, citrus and breadfruit.'],
+  ['culture','Aholining asosiy qismi','Основная часть населения','Most of the population','Maqolada aholining 99 foizi maldivlar (divexilar) ekani ko‘rsatilgan.','В статье указано, что 99 процентов населения составляют мальдивцы (дивехи).','The article states that 99 percent of the population are Maldivians (Dhivehi).'],
+  ['culture','Rasmiy til va din','Официальный язык и религия','Official language and religion','Manbaga ko‘ra rasmiy til — divexi, asosiy din — Islom.','Согласно источнику, официальный язык — дивехи, основная религия — ислам.','According to the source, Dhivehi is the official language and Islam the main religion.'],
+  ['history','Dastlabki ko‘chib kelish','Раннее заселение','Early settlement','Maqolada miloddan avvalgi III–I asrlarda Seylon va Hindistondan ko‘chib kelganlar tilga olinadi.','В статье упоминаются переселенцы с Цейлона и из Индии в III–I веках до нашей эры.','The article mentions settlers arriving from Ceylon and India in the 3rd–1st centuries BCE.'],
+  ['history','Islomdan oldingi buddaviylik','Буддизм до ислама','Buddhism before Islam','Manbada ilk ko‘chib kelgan guruhlar budda diniga e’tiqod qilgani qayd etiladi.','Источник отмечает, что ранние переселенцы исповедовали буддизм.','The source notes that early settlers practised Buddhism.'],
+  ['history','Arab va forslar kelishi','Приход арабов и персов','Arrival of Arabs and Persians','V–XII asrlarda arablar va forslar kelishi bilan orollarda Islom tarqala boshlagan.','С приходом арабов и персов в V–XII веках на островах начал распространяться ислам.','Islam began to spread on the islands with the arrival of Arabs and Persians in the 5th–12th centuries.'],
+  ['history','Sultonlik davri','Период султаната','Sultanate period','Manbada 1153-yilda Islom sultonligi tuzilgani va Didi sulolasi 1968-yilgacha hukmronlik qilgani aytiladi.','В статье говорится о создании исламского султаната в 1153 году и правлении династии Диди до 1968 года.','The article states that an Islamic sultanate was established in 1153 and the Didi dynasty ruled until 1968.'],
+  ['history','Mustaqillik va respublika','Независимость и республика','Independence and republic','Maldivlar 1965-yilda to‘liq mustaqillikka erishib, 1968-yilda respublika deb e’lon qilingan.','Мальдивы получили полную независимость в 1965 году и были провозглашены республикой в 1968 году.','The Maldives became fully independent in 1965 and was declared a republic in 1968.'],
+  ['history','Mustaqillik kuni','День независимости','Independence Day','Manbada 26-iyul Mustaqillik kuni sifatida ko‘rsatilgan.','В источнике 26 июля указано как День независимости.','The source lists 26 July as Independence Day.'],
+  ['visit','Dengiz porti va aeroport','Морской порт и аэропорт','Seaport and airport','Maqolada Male mamlakatning asosiy dengiz porti, Hulhule esa aeroport joylashgan orol sifatida qayd etiladi.','В статье Мале назван главным морским портом страны, а Хулуле — островом с аэропортом.','The article identifies Malé as the main seaport and Hulhulé as the island with an airport.'],
+]);
+
+const tickets = ticketInfo(null, [
+  'The cited article does not give current entry fees, and the Maldives has no single attraction-wide admission ticket.',
+  'Confirm island, resort, activity and transfer charges with the official operator before booking.',
+  'Avoid unsolicited third-party ticket and transfer links.',
+]);
+
+export const maldivesGuide = guideData('maldives', wiki, facts, tickets);

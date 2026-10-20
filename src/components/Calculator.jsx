@@ -1,41 +1,26 @@
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowUpRight, BedDouble, Bus, Coins, Utensils, Ticket } from 'lucide-react'
-
-const EXCHANGE = { USD: 1, EUR: 0.92, UZS: 12800, RUB: 92 }
-const STYLE_KEYS = ['budget', 'standard', 'luxury']
-const COST_SHARES = [
-  { key: 'stay', share: 0.4, icon: BedDouble },
-  { key: 'food', share: 0.3, icon: Utensils },
-  { key: 'transport', share: 0.15, icon: Bus },
-  { key: 'tickets', share: 0.15, icon: Ticket },
-]
+import { ArrowUpRight, Coins } from 'lucide-react'
 
 export default function Calculator({ places, lang, t, selectedId, onDestinationChange }) {
   const [days, setDays] = useState(5)
-  const [style, setStyle] = useState('standard')
-  const [currency, setCurrency] = useState('USD')
   const place = places.find((item) => item.id === selectedId) ?? places[0]
   const locale = lang === 'uz' ? 'uz-UZ' : lang === 'ru' ? 'ru-RU' : 'en-US'
 
   const formatMoney = (amount) => new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency,
-    maximumFractionDigits: currency === 'UZS' ? 0 : 0,
+    currency: 'USD',
+    maximumFractionDigits: 0,
   }).format(amount)
 
   const estimate = useMemo(() => {
-    if (!place) return null
-    const daily = place.dailyCosts[style] * EXCHANGE[currency]
+    const daily = place?.dailyCostEstimate?.amount
+    if (typeof daily !== 'number') return null
     return {
       daily,
       total: daily * days,
-      categories: COST_SHARES.map((item) => ({
-        ...item,
-        value: daily * item.share,
-      })),
     }
-  }, [currency, days, place, style])
+  }, [days, place])
 
   return (
     <motion.div
@@ -71,29 +56,6 @@ export default function Calculator({ places, lang, t, selectedId, onDestinationC
             <span>{lang === 'ru' ? 'дн.' : lang === 'uz' ? 'kun' : 'days'}</span>
           </div>
         </label>
-        <label className="planner-field">
-          <span>{t.currency}</span>
-          <select value={currency} onChange={(event) => setCurrency(event.target.value)}>
-            {Object.entries(t.currencyNames).map(([code, name]) => <option key={code} value={code}>{code} · {name}</option>)}
-          </select>
-        </label>
-      </div>
-
-      <div className="style-picker" role="group" aria-label={t.travelStyle}>
-        <span className="style-label">{t.travelStyle}</span>
-        <div>
-          {STYLE_KEYS.map((key) => (
-            <button
-              key={key}
-              type="button"
-              className={style === key ? 'style-option is-active' : 'style-option'}
-              onClick={() => setStyle(key)}
-              aria-pressed={style === key}
-            >
-              {t[`${key}Style`]}
-            </button>
-          ))}
-        </div>
       </div>
 
       {estimate && (
@@ -101,20 +63,26 @@ export default function Calculator({ places, lang, t, selectedId, onDestinationC
           <div className="estimate-headline">
             <span>{t.perDay}</span><strong>{formatMoney(estimate.daily)}</strong>
           </div>
-          <div className="estimate-breakdown">
-            {estimate.categories.map(({ key, share, value, icon: Icon }) => (
-              <div className="estimate-row" key={key}>
-                <span className="estimate-label"><Icon size={14} />{t[key]}</span>
-                <span className="estimate-meter"><i style={{ width: `${share * 100}%` }} /></span>
-                <strong>{formatMoney(value)}</strong>
-              </div>
-            ))}
-          </div>
           <div className="estimate-total">
             <span>{t.totalTrip}<small>{days} × {formatMoney(estimate.daily)}</small></span>
             <strong>{formatMoney(estimate.total)}</strong>
           </div>
+          <p className="estimate-basis">{place.dailyCostEstimate.basis[lang]}</p>
         </div>
+      )}
+      {!estimate && (
+        <div className="estimate-panel estimate-unavailable" aria-live="polite">
+          <p>{t.costUnavailable}</p>
+          <p className="estimate-basis">{place.dailyCostEstimate.basis[lang]}</p>
+        </div>
+      )}
+      {place?.dailyCostEstimate?.source && (
+        <a className="estimate-source" href={place.dailyCostEstimate.source} target="_blank" rel="noreferrer">
+          {t.costSource}
+        </a>
+      )}
+      {place?.dailyCostEstimate?.verifiedAt && (
+        <p className="estimate-source-date">{t.checkedOn}: {place.dailyCostEstimate.verifiedAt}</p>
       )}
       <p className="estimate-note">{t.estimateNote}</p>
     </motion.div>

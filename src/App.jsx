@@ -305,7 +305,6 @@ export default function App() {
                       saved={favs.includes(place.id)}
                       onToggle={toggleFavorite}
                       onOpen={setSelected}
-                      onOpenGuide={openPlaceGuide}
                     />
                   ))}
                 </AnimatePresence>

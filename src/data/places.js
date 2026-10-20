@@ -1,3 +1,5 @@
+import { DAILY_COST_REFERENCES } from './dailyCosts.data'
+
 const photo = (id, width = 1400) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`
 
@@ -27,7 +29,6 @@ export const PLACES = [
     latitude: 36.3932,
     longitude: 25.4615,
     bestMonths: [4, 9],
-    price: { uz: 'Bepul · ayrim joylar pullik', en: 'Free · some sites charge admission', ru: 'Бесплатно · вход в отдельные места платный' },
   },
   {
     id: 'registan',
@@ -59,7 +60,6 @@ export const PLACES = [
     latitude: 39.6548,
     longitude: 66.9758,
     bestMonths: [3, 5],
-    price: { uz: 'Taxminan 50 000 so‘m', en: 'Around $4 USD', ru: 'Около 300 ₽' },
   },
   {
     id: 'machu-picchu',
@@ -86,7 +86,6 @@ export const PLACES = [
     latitude: -13.1631,
     longitude: -72.545,
     bestMonths: [4, 9],
-    price: { uz: 'Taxminan 500 000 so‘m', en: 'From $42 USD', ru: 'От 3 800 ₽' },
   },
   {
     id: 'taj-mahal',
@@ -113,7 +112,6 @@ export const PLACES = [
     latitude: 27.1751,
     longitude: 78.0421,
     bestMonths: [10, 2],
-    price: { uz: 'Taxminan 160 000 so‘m', en: 'Around $14 USD', ru: 'Около 1 000 ₽' },
   },
   {
     id: 'colosseum',
@@ -140,7 +138,6 @@ export const PLACES = [
     latitude: 41.8902,
     longitude: 12.4922,
     bestMonths: [4, 6],
-    price: { uz: 'Taxminan 250 000 so‘m', en: 'From $18 USD', ru: 'От 1 700 ₽' },
   },
   {
     id: 'mount-fuji',
@@ -167,7 +164,6 @@ export const PLACES = [
     latitude: 35.3606,
     longitude: 138.7274,
     bestMonths: [6, 8],
-    price: { uz: 'Chiqish ruxsatnomasi talab qilinishi mumkin', en: 'A climbing permit may be required', ru: 'Для восхождения может потребоваться разрешение' },
   },
   {
     id: 'eiffel-tower',
@@ -194,7 +190,6 @@ export const PLACES = [
     latitude: 48.8584,
     longitude: 2.2945,
     bestMonths: [4, 6],
-    price: { uz: 'Atrofida sayr qilish bepul', en: 'Viewing the tower is free', ru: 'Осмотр снаружи бесплатный' },
   },
   {
     id: 'bali',
@@ -221,7 +216,6 @@ export const PLACES = [
     latitude: -8.4095,
     longitude: 115.1889,
     bestMonths: [4, 10],
-    price: { uz: 'Ko‘p plyajlar bepul', en: 'Many beaches are free', ru: 'Многие пляжи бесплатны' },
   },
   {
     id: 'grand-canyon',
@@ -248,7 +242,6 @@ export const PLACES = [
     latitude: 36.1069,
     longitude: -112.1129,
     bestMonths: [3, 5],
-    price: { uz: 'Taxminan 350 000 so‘m / avtomobil', en: '$35 per vehicle', ru: 'Около 2 600 ₽ за автомобиль' },
   },
   {
     id: 'kyoto',
@@ -275,7 +268,6 @@ export const PLACES = [
     latitude: 35.0116,
     longitude: 135.7681,
     bestMonths: [3, 5],
-    price: { uz: 'Ko‘plab ibodatxonalar bepul', en: 'Many temples are free to enter', ru: 'Вход во многие храмы бесплатный' },
   },
   {
     id: 'maldives',
@@ -302,7 +294,6 @@ export const PLACES = [
     latitude: 3.2028,
     longitude: 73.2207,
     bestMonths: [11, 4],
-    price: { uz: 'Orol va turar joyga qarab', en: 'Varies by island and resort', ru: 'Зависит от острова и отеля' },
   },
   {
     id: 'great-wall',
@@ -329,7 +320,6 @@ export const PLACES = [
     latitude: 40.4319,
     longitude: 116.5704,
     bestMonths: [4, 5],
-    price: { uz: 'Taxminan 100 000 so‘m', en: 'Around $9 USD', ru: 'Около 650 ₽' },
   },
   {
     id: 'tokyo',
@@ -356,7 +346,6 @@ export const PLACES = [
     latitude: 35.6762,
     longitude: 139.6503,
     bestMonths: [3, 5],
-    price: { uz: 'Bepul ko‘cha manzaralari · muzeylar pullik', en: 'Free city walks · museums charge admission', ru: 'Прогулки бесплатны · вход в музеи платный' },
   },
   {
     id: 'swiss-alps',
@@ -383,7 +372,6 @@ export const PLACES = [
     latitude: 46.5197,
     longitude: 7.9304,
     bestMonths: [5, 9],
-    price: { uz: 'Dovon chiptalari narxi yo‘nalishga bog‘liq', en: 'Mountain pass fares vary by route', ru: 'Стоимость подъёмников зависит от маршрута' },
   },
   {
     id: 'samarkand',
@@ -410,7 +398,6 @@ export const PLACES = [
     latitude: 39.6542,
     longitude: 66.9597,
     bestMonths: [4, 5, 9, 10],
-    price: { uz: 'Safar rejasi va chipta narxlarini oldindan tekshiring', en: 'Check current travel and ticket prices', ru: 'Заранее проверьте актуальные цены на проезд и билеты' },
   },
 ].map((place) => {
   const flags = {
@@ -419,18 +406,10 @@ export const PLACES = [
     'grand-canyon': '🇺🇸', kyoto: '🇯🇵', maldives: '🇲🇻', 'great-wall': '🇨🇳',
     tokyo: '🇯🇵', 'swiss-alps': '🇨🇭',
   }
-  const dailyCosts = {
-    santorini: [85, 190, 480], registan: [18, 22, 85], samarkand: [18, 42, 110], 'machu-picchu': [45, 110, 280],
-    'taj-mahal': [25, 65, 190], 'eiffel-tower': [90, 210, 560], colosseum: [85, 195, 520],
-    'mount-fuji': [65, 150, 390], bali: [30, 90, 280], 'grand-canyon': [70, 165, 420],
-    kyoto: [70, 160, 430], maldives: [110, 320, 950], 'great-wall': [45, 110, 300],
-    tokyo: [85, 220, 580], 'swiss-alps': [140, 340, 880],
-  }
-  const [budget, standard, luxury] = dailyCosts[place.id]
+  const dailyCostEstimate = DAILY_COST_REFERENCES[place.id]
   const premium = {
     registan: {
       videoUrl: 'https://www.youtube.com/results?search_query=Registan+Samarkand+4K+travel+tour',
-      exactCosts: { hotel: 18, food: 8, transport: 4, tickets: 5, hiddenFees: 3 },
       travelTips: {
         visa: { uz: 'Ko‘plab davlat fuqarolari vizasiz yoki elektron viza bilan kira oladi; safardan oldin rasmiy talablarni tekshiring.', en: 'Many nationalities can enter visa-free or with an e-visa; check official requirements before travel.', ru: 'Для многих граждан доступен безвизовый въезд или электронная виза; проверьте правила перед поездкой.' },
         safety: { uz: 'Samarqand odatda sayyohlar uchun xavfsiz. Gavjum bozorlarda qimmatbaho buyumlaringizni ehtiyot qiling.', en: 'Samarkand is generally welcoming to visitors. Keep valuables secure in busy bazaars.', ru: 'Самарканд обычно безопасен для туристов. Следите за вещами на оживлённых базарах.' },
@@ -440,7 +419,6 @@ export const PLACES = [
     },
     tokyo: {
       videoUrl: 'https://www.youtube.com/results?search_query=Tokyo+Japan+4K+cinematic+travel+tour',
-      exactCosts: { hotel: 140, food: 55, transport: 22, tickets: 35, hiddenFees: 18 },
       travelTips: {
         visa: { uz: 'Viza talablari fuqaroligingizga bog‘liq; Yaponiyaning rasmiy elchixona ma’lumotlarini tekshiring.', en: 'Visa rules depend on your passport; consult the official Japanese embassy before booking.', ru: 'Визовые требования зависят от гражданства; проверьте информацию на сайте посольства Японии.' },
         safety: { uz: 'Shahar juda xavfsiz. Poyezdlarda tig‘iz paytni hisobga oling, naqd pul va transport kartasini yoningizda tuting.', en: 'Tokyo is very safe. Allow extra time for rush-hour trains and keep a transit card handy.', ru: 'Токио очень безопасен. Учитывайте час пик в метро и держите транспортную карту под рукой.' },
@@ -450,7 +428,6 @@ export const PLACES = [
     },
     'swiss-alps': {
       videoUrl: 'https://www.youtube.com/results?search_query=Swiss+Alps+4K+drone+mountain+travel+tour',
-      exactCosts: { hotel: 220, food: 75, transport: 65, tickets: 95, hiddenFees: 25 },
       travelTips: {
         visa: { uz: 'Shveysariya Shengen hududiga kiradi. Safardan oldin Shengen vizasi va kirish qoidalarini tekshiring.', en: 'Switzerland is in the Schengen Area. Check current Schengen visa and entry rules before departure.', ru: 'Швейцария входит в Шенгенскую зону. Перед поездкой проверьте визовые правила и условия въезда.' },
         safety: { uz: 'Tog‘ yo‘llarida ob-havo tez o‘zgaradi. Belgilangan so‘qmoqlarda yuring va dovonlar jadvalini oldindan tekshiring.', en: 'Mountain weather changes quickly. Stay on marked trails and check pass and lift conditions in advance.', ru: 'В горах погода быстро меняется. Не сходите с маршрутов и заранее проверяйте работу подъёмников.' },
@@ -463,8 +440,8 @@ export const PLACES = [
   return {
     ...place,
     flag: flags[place.id],
-    dailyCosts: { budget, standard, luxury },
-    isPro: Boolean(premiumDetails),
+    dailyCostEstimate,
+    isPro: true,
     ...(premiumDetails ?? {}),
   }
 })
