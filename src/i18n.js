@@ -14,7 +14,7 @@ export const CATS = ['nature', 'historical', 'wonders', 'cities', 'beaches']
 
 export const UI = {
   en: {
-    documentTitle: 'WonderLook — Discover somewhere wonderful',
+    documentTitle: 'WonderLook',
     map: 'Explore map', gallery: 'Discover', plannerNav: 'Plan a trip', saved: 'Saved', navLabel: 'Main navigation',
     languageLabel: 'Language', chooseView: 'Choose a view', themeLight: 'Switch to light theme',
     themeDark: 'Switch to dark theme', previousImage: 'Previous image', nextImage: 'Next image',
@@ -74,7 +74,7 @@ export const UI = {
     region: 'Around the world', location: 'Location', close: 'Close details',
   },
   uz: {
-    documentTitle: 'WonderLook — Dunyoning go‘zal maskanlari',
+    documentTitle: 'WonderLook',
     map: 'Xaritani ko‘rish', gallery: 'Kashf etish', plannerNav: 'Sayohatni rejalash', saved: 'Saqlanganlar', navLabel: 'Asosiy menyu',
     languageLabel: 'Til', chooseView: 'Ko‘rinishni tanlang', themeLight: 'Yorug‘ mavzuga o‘tish',
     themeDark: 'Qorong‘i mavzuga o‘tish', previousImage: 'Oldingi rasm', nextImage: 'Keyingi rasm',
@@ -136,7 +136,7 @@ export const UI = {
     result: 'Kashf eting', region: 'Dunyo bo‘ylab', location: 'Manzil', close: 'Tafsilotlarni yopish',
   },
   ru: {
-    documentTitle: 'WonderLook — Откройте красивые места мира',
+    documentTitle: 'WonderLook',
     map: 'Карта мира', gallery: 'Открыть', plannerNav: 'План поездки', saved: 'Избранное', navLabel: 'Главная навигация',
     languageLabel: 'Язык', chooseView: 'Выберите вид', themeLight: 'Включить светлую тему',
     themeDark: 'Включить тёмную тему', previousImage: 'Предыдущее фото', nextImage: 'Следующее фото',
