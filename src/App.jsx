@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowDown, LayoutGrid, Map, SlidersHorizontal, X } from 'lucide-react'
 import { LANGS, UI, CATS } from './i18n'
 import { PLACES } from './data/places'
-import { useLocalStorage } from './hooks'
+import { useLocalStorage, usePremium } from './hooks'
 import ParticleBackground from './components/ParticleBackground'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -15,13 +15,19 @@ import Calculator from './components/Calculator'
 import CalendarWidget from './components/CalendarWidget'
 import PricingModal from './components/PricingModal'
 import ProVideoModal from './components/ProVideoModal'
+import PlaceGuidePage from './components/PlaceGuidePage'
+import PlaceTravelGuidePage from './components/PlaceTravelGuidePage'
+import { PremiumVideo } from './components/PremiumVideo'
+import { samarkand } from './data/samarkand.data'
+import PremiumPage from './components/PremiumPage'
 
 export default function App() {
-  const [lang, setLang] = useLocalStorage('wl-lang', 'en')
+  const [lang, setLang] = useLocalStorage('wl-lang', 'uz')
   const [dark, setDark] = useLocalStorage('wl-dark', true)
   const [favs, setFavs] = useLocalStorage('wl-favs', [])
   const [query, setQuery] = useState('')
   const [cat, setCat] = useState('all')
+  const [countryFilter, setCountryFilter] = useState('all')
   const [minRating, setMinRating] = useState(0)
   const [showSaved, setShowSaved] = useState(false)
   const [view, setView] = useState('grid')
@@ -29,23 +35,56 @@ export default function App() {
   const [mapFocusId, setMapFocusId] = useState(null)
   const [plannerPlaceId, setPlannerPlaceId] = useLocalStorage('wl-planner-place', 'registan')
   const [savedDates, setSavedDates] = useLocalStorage('wl-trip-dates', null)
-  const [isProMember, setIsProMember] = useLocalStorage('wl-pro-unlocked', false)
+  const { isPremium: isProMember, activateDemoPremium } = usePremium()
   const [pricingOpen, setPricingOpen] = useState(false)
   const [videoPlace, setVideoPlace] = useState(null)
+  const [pathname, setPathname] = useState(window.location.pathname)
   const t = UI[lang] ?? UI.en
   const closeSelected = useCallback(() => setSelected(null), [])
 
   useEffect(() => {
+    const updatePath = () => setPathname(window.location.pathname)
+    window.addEventListener('popstate', updatePath)
+    return () => window.removeEventListener('popstate', updatePath)
+  }, [])
+
+  const navigate = useCallback((path) => {
+    window.history.pushState({}, '', path)
+    setPathname(window.location.pathname)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
+
+  const openPlaceGuide = useCallback((place) => {
+    const id = place.city.uz === 'Samarqand'
+      ? 'samarkand'
+      : place.id === 'eiffel-tower'
+        ? 'eiffel'
+        : place.id === 'swiss-alps'
+          ? 'alps'
+          : place.id
+    setSelected(null)
+    navigate(`/place/${id}`)
+  }, [navigate])
+
+  useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
     document.documentElement.lang = lang
-    document.title = t.documentTitle
-  }, [dark, lang, t.documentTitle])
+    if (pathname === '/') document.title = t.documentTitle
+  }, [dark, lang, pathname, t.documentTitle])
+
+  useEffect(() => {
+    const key = `wl-pageviews-${new Date().toISOString().slice(0, 10)}`
+    const pageviews = Number(sessionStorage.getItem(key) || '0')
+    sessionStorage.setItem(key, String(pageviews + 1))
+    window.dispatchEvent(new CustomEvent('wonderlook:pageview', { detail: { path: pathname } }))
+  }, [pathname])
 
   const places = useMemo(() => {
     const search = query.trim().toLocaleLowerCase()
     return PLACES.filter((place) => {
       if (showSaved && !favs.includes(place.id)) return false
       if (cat !== 'all' && !place.categories.includes(cat)) return false
+      if (countryFilter !== 'all' && place.country.en !== countryFilter) return false
       if (place.rating < minRating) return false
       if (!search) return true
       const searchable = [
@@ -56,7 +95,7 @@ export default function App() {
       ].join(' ').toLocaleLowerCase()
       return searchable.includes(search)
     })
-  }, [cat, favs, minRating, query, showSaved])
+  }, [cat, countryFilter, favs, lang, minRating, query, showSaved])
 
   const suggestions = useMemo(() => {
     const search = query.trim().toLocaleLowerCase()
@@ -71,6 +110,7 @@ export default function App() {
   const selectSuggestion = (place) => {
     setQuery(place.name[lang])
     setCat('all')
+    setCountryFilter('all')
     setMinRating(0)
     setShowSaved(false)
     setMapFocusId(place.id)
@@ -87,6 +127,7 @@ export default function App() {
   const clearFilters = () => {
     setQuery('')
     setCat('all')
+    setCountryFilter('all')
     setMinRating(0)
     setShowSaved(false)
     setMapFocusId(null)
@@ -103,18 +144,31 @@ export default function App() {
         setDark={setDark}
         savedCount={favs.length}
         isProMember={isProMember}
-        onUpgrade={() => setPricingOpen(true)}
+        onUpgrade={() => navigate('/premium')}
+        isGuide={pathname !== '/'}
         onMap={(event) => {
           event.preventDefault()
           setView('map')
-          document.getElementById('discover')?.scrollIntoView({ behavior: 'smooth' })
+          if (pathname !== '/') {
+            navigate('/')
+            window.setTimeout(() => document.getElementById('discover')?.scrollIntoView({ behavior: 'smooth' }), 50)
+          } else {
+            document.getElementById('discover')?.scrollIntoView({ behavior: 'smooth' })
+          }
         }}
         onSaved={() => {
           setShowSaved(true)
-          document.getElementById('discover')?.scrollIntoView({ behavior: 'smooth' })
+          if (pathname !== '/') {
+            navigate('/')
+            window.setTimeout(() => document.getElementById('discover')?.scrollIntoView({ behavior: 'smooth' }), 50)
+          } else {
+            document.getElementById('discover')?.scrollIntoView({ behavior: 'smooth' })
+          }
         }}
       />
       <main>
+        {pathname === '/' ? (
+          <>
         <Hero
           t={t}
           lang={lang}
@@ -131,6 +185,7 @@ export default function App() {
               setMapFocusId(exactPlace.id)
               setView('map')
               setCat('all')
+              setCountryFilter('all')
               setMinRating(0)
               setShowSaved(false)
             } else if (!search) {
@@ -195,7 +250,14 @@ export default function App() {
                 ))}
               </select>
             </label>
-            {(query || cat !== 'all' || minRating > 0 || showSaved) && (
+            <label className="rating-filter country-filter">
+              <span className="sr-only">{lang === 'uz' ? 'Davlat bo‘yicha filtr' : lang === 'ru' ? 'Фильтр по стране' : 'Filter by country'}</span>
+              <select value={countryFilter} onChange={(event) => setCountryFilter(event.target.value)}>
+                <option value="all">{lang === 'uz' ? 'Barcha davlatlar' : lang === 'ru' ? 'Все страны' : 'All countries'}</option>
+                {[...new globalThis.Map(PLACES.map((place) => [place.country.en, place.country[lang]])).entries()].sort(([a], [b]) => a.localeCompare(b)).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+              </select>
+            </label>
+            {(query || cat !== 'all' || countryFilter !== 'all' || minRating > 0 || showSaved) && (
               <button type="button" className="clear-filters" onClick={clearFilters}>
                 <X size={14} /> {t.clear}
               </button>
@@ -243,6 +305,7 @@ export default function App() {
                       saved={favs.includes(place.id)}
                       onToggle={toggleFavorite}
                       onOpen={setSelected}
+                      onOpenGuide={openPlaceGuide}
                     />
                   ))}
                 </AnimatePresence>
@@ -282,6 +345,56 @@ export default function App() {
             />
           </div>
         </section>
+        <section className="guide-section page-width" id="videos">
+          <div className="guide-section-heading">
+            <span>WATCH / SAMARKAND</span>
+            <h2>{lang === 'uz' ? 'Safardan oldin tomosha qiling' : lang === 'ru' ? 'Посмотрите перед поездкой' : 'Watch before you go'}</h2>
+          </div>
+          <div className="guide-video-grid">
+            {samarkand.videos.map((video) => <PremiumVideo key={video.id} video={video} lang={lang} isPremium={isProMember} onUpgrade={() => setPricingOpen(true)} />)}
+          </div>
+        </section>
+        <section className="guide-section page-width" id="about">
+          <div className="guide-section-heading">
+            <span>ABOUT WONDERLOOK</span>
+            <h2>{lang === 'uz' ? 'DunyoKo‘z — dunyoni yaqindan ko‘ring.' : lang === 'ru' ? 'WonderLook — увидьте мир ближе.' : 'WonderLook — see the world more closely.'}</h2>
+          </div>
+          <p className="section-subtitle">{t.footer}</p>
+        </section>
+          </>
+        ) : pathname === '/place/samarkand' ? (
+          <PlaceGuidePage
+            lang={lang}
+            isPremium={isProMember}
+            saved={favs.includes('samarkand')}
+            onToggleFavorite={toggleFavorite}
+            onUpgrade={() => setPricingOpen(true)}
+            onHome={() => navigate('/')}
+          />
+        ) : pathname.startsWith('/place/') ? (
+          <PlaceTravelGuidePage
+            id={decodeURIComponent(pathname.slice('/place/'.length))}
+            lang={lang}
+            isPremium={isProMember}
+            saved={favs.includes(
+              pathname.endsWith('/eiffel') ? 'eiffel-tower'
+                : pathname.endsWith('/alps') ? 'swiss-alps'
+                  : pathname.endsWith('/samarkand') ? 'samarkand'
+                    : decodeURIComponent(pathname.slice('/place/'.length)),
+            )}
+            onToggleFavorite={toggleFavorite}
+            onUpgrade={() => setPricingOpen(true)}
+            onHome={() => navigate('/')}
+          />
+        ) : pathname === '/premium' ? (
+          <PremiumPage lang={lang} isPremium={isProMember} onActivate={activateDemoPremium} />
+        ) : (
+          <section className="not-found page-width">
+            <span>404</span>
+            <h1>{lang === 'uz' ? 'Sahifa topilmadi' : lang === 'ru' ? 'Страница не найдена' : 'Page not found'}</h1>
+            <button type="button" onClick={() => navigate('/')}>{lang === 'uz' ? 'Bosh sahifaga qaytish' : lang === 'ru' ? 'На главную' : 'Back to home'}</button>
+          </section>
+        )}
       </main>
 
       <footer className="site-footer">
@@ -301,13 +414,14 @@ export default function App() {
         onUpgrade={() => setPricingOpen(true)}
         onPlayVideo={setVideoPlace}
         onClose={closeSelected}
+        onOpenGuide={openPlaceGuide}
       />
       <PricingModal
         open={pricingOpen}
         t={t}
         isPro={isProMember}
         onClose={() => setPricingOpen(false)}
-        onActivate={() => setIsProMember(true)}
+        onActivate={activateDemoPremium}
       />
       <ProVideoModal
         place={videoPlace}

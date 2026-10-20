@@ -2,19 +2,21 @@ import { Bookmark, Crown, Globe2, Moon, Sun } from 'lucide-react'
 import { LANGS } from '../i18n'
 
 export default function Navbar({
-  t, lang, setLang, dark, setDark, savedCount, onSaved, onMap, isProMember, onUpgrade,
+  t, lang, setLang, dark, setDark, savedCount, onSaved, onMap, isProMember, onUpgrade, isGuide = false,
 }) {
   return (
     <header className="site-header">
       <nav className="nav-bar" aria-label={t.navLabel}>
-        <a href="#top" className="brand" aria-label={t.homeLabel}>
+        <a href={isGuide ? '/' : '#top'} className="brand" aria-label={t.homeLabel}>
           <span className="brand-mark"><Globe2 size={20} strokeWidth={1.7} /></span>
           <span>WonderLook<span className="brand-period">.</span></span>
         </a>
         <div className="nav-links">
-          <a href="#discover">{t.gallery}</a>
-          <a href="#discover" onClick={onMap}>{t.map}</a>
-          <a href="#planner">{t.plannerNav}</a>
+          <a href={isGuide ? '/' : '#top'}>{lang === 'uz' ? 'Bosh' : lang === 'ru' ? 'Главная' : 'Home'}</a>
+          <a href={isGuide ? '/#discover' : '#discover'}>{t.gallery}</a>
+          <a href={isGuide ? '/#discover' : '#discover'} onClick={onMap}>{t.map}</a>
+          <a href={isGuide ? '/#videos' : '#videos'}>{lang === 'uz' ? 'Videolar' : lang === 'ru' ? 'Видео' : 'Videos'}</a>
+          <a href={isGuide ? '/#about' : '#about'}>{lang === 'uz' ? 'Biz haqimizda' : lang === 'ru' ? 'О нас' : 'About'}</a>
         </div>
         <div className="nav-actions">
           <button type="button" className={`nav-pro-button${isProMember ? ' is-member' : ''}`} onClick={onUpgrade}>

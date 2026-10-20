@@ -113,7 +113,7 @@ export default function PricingModal({ open, t, isPro, onClose, onActivate }) {
                   <button
                     type="button"
                     className="vip-primary"
-                    onClick={() => isPro ? onClose() : setCheckout(true)}
+                    onClick={() => isPro ? onClose() : activate()}
                   >
                     <Crown size={16} /> {isPro ? t.proActive : t.startPro}
                   </button>

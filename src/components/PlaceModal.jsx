@@ -7,7 +7,7 @@ import {
 import { LOCALES, MONTHS } from '../i18n'
 
 export default function PlaceModal({
-  place, lang, t, saved, isProMember, onToggle, onUpgrade, onPlayVideo, onClose,
+  place, lang, t, saved, isProMember, onToggle, onUpgrade, onPlayVideo, onClose, onOpenGuide,
 }) {
   const [slide, setSlide] = useState(0)
   const [speaking, setSpeaking] = useState(false)
@@ -55,6 +55,13 @@ export default function PlaceModal({
   const nextSlide = () => setSlide((current) => (current + 1) % place.images.length)
   const monthRange = place?.bestMonths.map((month) => MONTHS[lang][month - 1]).join(' – ')
   const mapUrl = place && `https://www.openstreetmap.org/?mlat=${place.latitude}&mlon=${place.longitude}#map=11/${place.latitude}/${place.longitude}`
+  const guideId = place?.city?.uz === 'Samarqand'
+    ? 'samarkand'
+    : place?.id === 'eiffel-tower'
+      ? 'eiffel'
+      : place?.id === 'swiss-alps'
+        ? 'alps'
+        : place?.id
 
   return (
     <AnimatePresence>
@@ -128,6 +135,12 @@ export default function PlaceModal({
             <div className="modal-content">
               <div className="modal-story">
                 <p className="modal-description">{place.description[lang]}</p>
+                {guideId && (
+                  <a className="guide-open-link" href={`/place/${guideId}`} onClick={(event) => { event.preventDefault(); onOpenGuide(place) }}>
+                    {lang === 'uz' ? 'To‘liq sayohat qo‘llanmasi' : lang === 'ru' ? 'Полный путеводитель' : 'Open the travel guide'}
+                    <ArrowUpRight size={15} />
+                  </a>
+                )}
                 <h3>{t.highlights}</h3>
                 <ul className="highlight-list">
                   {place.highlights[lang].map((highlight) => <li key={highlight}>{highlight}</li>)}

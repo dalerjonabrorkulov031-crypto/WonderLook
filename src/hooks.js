@@ -4,3 +4,11 @@ export function useLocalStorage(key, initial) {
   useEffect(() => { try { localStorage.setItem(key, JSON.stringify(v)) } catch {} }, [key, v])
   return [v, setV]
 }
+
+export function usePremium() {
+  const [isPremium, setIsPremium] = useLocalStorage('wl-pro-unlocked', false)
+  return {
+    isPremium,
+    activateDemoPremium: () => setIsPremium(true),
+  }
+}

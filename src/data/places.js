@@ -385,15 +385,42 @@ export const PLACES = [
     bestMonths: [5, 9],
     price: { uz: 'Dovon chiptalari narxi yo‘nalishga bog‘liq', en: 'Mountain pass fares vary by route', ru: 'Стоимость подъёмников зависит от маршрута' },
   },
+  {
+    id: 'samarkand',
+    name: { uz: 'Samarqand', en: 'Samarkand', ru: 'Самарканд' },
+    city: { uz: 'Samarqand', en: 'Samarkand', ru: 'Самарканд' },
+    country: { uz: 'O‘zbekiston', en: 'Uzbekistan', ru: 'Узбекистан' },
+    description: {
+      uz: 'Afrosiyob, Registon va Temuriylar merosi uyg‘unlashgan qadimiy shahar.',
+      en: 'An ancient city shaped by Afrasiab, the Registan and Timurid heritage.',
+      ru: 'Древний город, где соединяются Афрасиаб, Регистан и наследие Тимуридов.',
+    },
+    highlights: {
+      uz: ['Registon maydoni', 'Shohizinda', 'Ulug‘bek rasadxonasi'],
+      en: ['Registan Square', 'Shah-i-Zinda', 'Ulugh Beg Observatory'],
+      ru: ['Площадь Регистан', 'Шахи-Зинда', 'Обсерватория Улугбека'],
+    },
+    images: [
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/RegistanSquare_Samarkand.jpg/1280px-RegistanSquare_Samarkand.jpg',
+      'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Registan_Tillya-Kari_madrasah2014.JPG/1280px-Registan_Tillya-Kari_madrasah2014.JPG?utm_source=uz.wikipedia.org&utm_campaign=parser&utm_content=thumbnail',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Samarqand_Tarixiy_shahar.jpg/1280px-Samarqand_Tarixiy_shahar.jpg',
+    ],
+    categories: ['historical', 'cities', 'wonders'],
+    rating: 4.9,
+    latitude: 39.6542,
+    longitude: 66.9597,
+    bestMonths: [4, 5, 9, 10],
+    price: { uz: 'Safar rejasi va chipta narxlarini oldindan tekshiring', en: 'Check current travel and ticket prices', ru: 'Заранее проверьте актуальные цены на проезд и билеты' },
+  },
 ].map((place) => {
   const flags = {
-    santorini: '🇬🇷', registan: '🇺🇿', 'machu-picchu': '🇵🇪', 'taj-mahal': '🇮🇳',
+    santorini: '🇬🇷', registan: '🇺🇿', samarkand: '🇺🇿', 'machu-picchu': '🇵🇪', 'taj-mahal': '🇮🇳',
     'eiffel-tower': '🇫🇷', colosseum: '🇮🇹', 'mount-fuji': '🇯🇵', bali: '🇮🇩',
     'grand-canyon': '🇺🇸', kyoto: '🇯🇵', maldives: '🇲🇻', 'great-wall': '🇨🇳',
     tokyo: '🇯🇵', 'swiss-alps': '🇨🇭',
   }
   const dailyCosts = {
-    santorini: [85, 190, 480], registan: [18, 22, 85], 'machu-picchu': [45, 110, 280],
+    santorini: [85, 190, 480], registan: [18, 22, 85], samarkand: [18, 42, 110], 'machu-picchu': [45, 110, 280],
     'taj-mahal': [25, 65, 190], 'eiffel-tower': [90, 210, 560], colosseum: [85, 195, 520],
     'mount-fuji': [65, 150, 390], bali: [30, 90, 280], 'grand-canyon': [70, 165, 420],
     kyoto: [70, 160, 430], maldives: [110, 320, 950], 'great-wall': [45, 110, 300],
